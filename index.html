@@ -1,0 +1,949 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>¡Feliz Cumpleaños Amiga Liz! 🎉</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Pacifico&family=Poppins:wght@400;600;800&display=swap');
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: #07070a;
+            min-height: 100vh;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            position: relative;
+        }
+
+        /* --- FONDO MÁGICO DINÁMICO --- */
+        .magic-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: -2;
+            background: linear-gradient(125deg, #07070a, #140d1a, #09121a, #07070a);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+        }
+
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        #starCanvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        /* Pantalla de inicio con Girasol */
+        #welcomeOverlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(7, 7, 10, 0.88);
+            backdrop-filter: blur(12px);
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            transition: opacity 0.8s ease;
+        }
+
+        .welcome-card {
+            text-align: center;
+            padding: 30px 20px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 215, 0, 0.3);
+            border-radius: 25px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.8), 0 0 30px rgba(255,215,0,0.1);
+            max-width: 90%;
+            width: 420px;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .sunflower-container {
+            width: 120px;
+            height: 120px;
+            position: relative;
+            margin-bottom: 20px;
+            animation: flotarGirasol 3s ease-in-out infinite alternate;
+        }
+
+        @keyframes flotarGirasol {
+            0% { transform: translateY(0) rotate(0deg); }
+            100% { transform: translateY(-8px) rotate(3deg); }
+        }
+
+        .sunflower-center {
+            width: 46px;
+            height: 46px;
+            background: #5c3a21;
+            border-radius: 50%;
+            position: absolute;
+            top: 37px;
+            left: 37px;
+            z-index: 10;
+            box-shadow: inset 0 0 10px #321c0d;
+        }
+
+        .petal {
+            position: absolute;
+            width: 32px;
+            height: 55px;
+            background: linear-gradient(to top, #ffcc00, #ff9900);
+            border-radius: 50% 50% 20% 20%;
+            top: 15px;
+            left: 44px;
+            transform-origin: 50% 45px;
+            box-shadow: 0 0 8px rgba(255, 204, 0, 0.6);
+        }
+
+        .petal:nth-child(1) { transform: rotate(0deg); }
+        .petal:nth-child(2) { transform: rotate(30deg); }
+        .petal:nth-child(3) { transform: rotate(60deg); }
+        .petal:nth-child(4) { transform: rotate(90deg); }
+        .petal:nth-child(5) { transform: rotate(120deg); }
+        .petal:nth-child(6) { transform: rotate(150deg); }
+        .petal:nth-child(7) { transform: rotate(180deg); }
+        .petal:nth-child(8) { transform: rotate(210deg); }
+        .petal:nth-child(9) { transform: rotate(240deg); }
+        .petal:nth-child(10) { transform: rotate(270deg); }
+        .petal:nth-child(11) { transform: rotate(300deg); }
+        .petal:nth-child(12) { transform: rotate(330deg); }
+
+        .welcome-card h2 {
+            font-family: 'Pacifico', cursive;
+            font-size: 2.2rem;
+            color: #ffd700;
+            margin-bottom: 10px;
+            text-shadow: 0 2px 10px rgba(255,215,0,0.4);
+        }
+
+        .welcome-card p {
+            color: #ddd;
+            font-size: 0.95rem;
+            margin-bottom: 25px;
+            line-height: 1.5;
+        }
+
+        .start-btn {
+            background: linear-gradient(135deg, #ffd700 0%, #ff9900 100%);
+            color: #2b1a00;
+            border: none;
+            padding: 14px 35px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            border-radius: 30px;
+            cursor: pointer;
+            box-shadow: 0 5px 20px rgba(255, 215, 0, 0.4);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .start-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 25px rgba(255, 215, 0, 0.7);
+        }
+
+        header {
+            position: absolute;
+            top: 15px;
+            z-index: 20;
+            text-align: center;
+            width: 100%;
+        }
+
+        h1 {
+            font-family: 'Pacifico', cursive;
+            font-size: 2.3rem;
+            color: #ffd700;
+            text-shadow: 2px 2px 15px rgba(0,0,0,0.9), 0 0 20px rgba(255,215,0,0.4);
+            animation: flotarTitle 3s ease-in-out infinite alternate;
+        }
+
+        @keyframes flotarTitle {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(-4px); }
+        }
+
+        /* Contenedor Principal 16:9 */
+        .slider-container {
+            position: relative;
+            width: 85vw;
+            max-width: 950px;
+            aspect-ratio: 16 / 9;
+            background: rgba(0, 0, 0, 0.6);
+            border-radius: 16px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.9), 0 0 25px rgba(255, 215, 0, 0.2);
+            overflow: hidden;
+            border: 2px solid rgba(255, 215, 0, 0.4);
+            backdrop-filter: blur(5px);
+        }
+
+        .slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .slide.active {
+            opacity: 1;
+        }
+
+        .slide-bg {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background-size: cover;
+            background-position: center;
+            filter: blur(25px) brightness(0.3);
+            z-index: 1;
+        }
+
+        .slide-img {
+            position: relative;
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+            z-index: 2;
+            border-radius: 8px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.7);
+            animation: zoomEfecto 4s ease infinite alternate;
+        }
+
+        @keyframes zoomEfecto {
+            0% { transform: scale(1); }
+            100% { transform: scale(1.02); }
+        }
+
+        .slide-phrase {
+            position: absolute;
+            bottom: 25px;
+            z-index: 5;
+            background: rgba(15, 15, 19, 0.85);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 215, 0, 0.3);
+            color: #fff;
+            padding: 10px 22px;
+            border-radius: 30px;
+            font-size: 0.95rem;
+            text-align: center;
+            max-width: 80%;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.5);
+            animation: fadeInPhrase 1s ease-in-out;
+        }
+
+        @keyframes fadeInPhrase {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .slider-controls {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            z-index: 25;
+            display: flex;
+            gap: 10px;
+            opacity: 0.4;
+            transition: opacity 0.3s ease;
+        }
+
+        .slider-container:hover .slider-controls {
+            opacity: 1;
+        }
+
+        .ctrl-btn {
+            background: rgba(0, 0, 0, 0.6);
+            border: 1px solid rgba(255, 215, 0, 0.4);
+            color: #fff;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.9rem;
+            backdrop-filter: blur(5px);
+            transition: background 0.2s, transform 0.2s;
+        }
+
+        .ctrl-btn:hover {
+            background: rgba(255, 215, 0, 0.3);
+            transform: scale(1.1);
+        }
+
+        /* --- MODO DEDICATORIA CON VOZ / NOTAS FLOTANTES --- */
+        .dedication-panel {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            z-index: 25;
+            display: flex;
+            gap: 8px;
+            background: rgba(0, 0, 0, 0.5);
+            padding: 6px 12px;
+            border-radius: 20px;
+            border: 1px solid rgba(255, 215, 0, 0.3);
+            backdrop-filter: blur(8px);
+        }
+
+        .dedication-btn {
+            background: transparent;
+            border: none;
+            color: #ffd700;
+            font-family: 'Poppins', sans-serif;
+            font-size: 0.8rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            padding: 4px 8px;
+            border-radius: 12px;
+            transition: background 0.2s, color 0.2s;
+        }
+
+        .dedication-btn:hover {
+            background: rgba(255, 215, 0, 0.2);
+            color: #fff;
+        }
+
+        .final-card {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(15, 15, 19, 0.92);
+            backdrop-filter: blur(15px);
+            z-index: 10;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 30px;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 1s ease;
+        }
+
+        .final-card.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .final-card h3 {
+            font-family: 'Pacifico', cursive;
+            font-size: 2.2rem;
+            color: #ffd700;
+            margin-bottom: 15px;
+        }
+
+        .final-card p {
+            color: #e0e0e0;
+            font-size: 1rem;
+            max-width: 600px;
+            line-height: 1.6;
+            margin-bottom: 25px;
+        }
+
+        .replay-btn {
+            background: transparent;
+            border: 2px solid #ffd700;
+            color: #ffd700;
+            padding: 10px 25px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .replay-btn:hover {
+            background: #ffd700;
+            color: #0f0f13;
+            box-shadow: 0 0 15px rgba(255,215,0,0.5);
+        }
+
+        .loading-msg {
+            position: absolute;
+            z-index: 15;
+            font-size: 1.1rem;
+            color: #ffd700;
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0% { opacity: 0.4; }
+            50% { opacity: 1; }
+            100% { opacity: 0.4; }
+        }
+
+        .timer-bar {
+            position: absolute;
+            bottom: 0; left: 0;
+            height: 4px;
+            background: #ff9900;
+            z-index: 10;
+            width: 0%;
+            transition: width linear;
+        }
+
+        .confetti {
+            position: fixed;
+            width: 7px;
+            height: 7px;
+            background-color: #ffd700;
+            top: -10px;
+            z-index: 5;
+            animation: fall linear infinite;
+        }
+
+        @keyframes fall {
+            0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(105vh) rotate(360deg); opacity: 0; }
+        }
+
+        .firework-particle {
+            position: fixed;
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 1100;
+            animation: explode 1s cubic-bezier(0, .9, .57, 1) forwards;
+        }
+
+        @keyframes explode {
+            0% { transform: translate(0, 0) scale(1); opacity: 1; }
+            100% { transform: translate(var(--tx), var(--ty)) scale(0.1); opacity: 0; }
+        }
+
+        .music-note {
+            position: fixed;
+            font-size: 1.2rem;
+            color: #ffd700;
+            pointer-events: none;
+            z-index: 3;
+            animation: floatNote 4s linear infinite;
+            opacity: 0;
+        }
+
+        @keyframes floatNote {
+            0% { transform: translateY(105vh) scale(0.8); opacity: 1; }
+            100% { transform: translateY(-10vh) translateX(30px) scale(1.2); opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="magic-background"></div>
+    <canvas id="starCanvas"></canvas>
+
+    <div id="welcomeOverlay">
+        <div class="welcome-card">
+            <div class="sunflower-container">
+                <div class="sunflower-center"></div>
+                <div class="petal"></div><div class="petal"></div><div class="petal"></div>
+                <div class="petal"></div><div class="petal"></div><div class="petal"></div>
+                <div class="petal"></div><div class="petal"></div><div class="petal"></div>
+                <div class="petal"></div><div class="petal"></div><div class="petal"></div>
+            </div>
+            <h2>¡Hola, Liz! 🌻</h2>
+            <p>Hay un pequeño detalle lleno de luz y recuerdos esperándote aquí dentro.</p>
+            <button class="start-btn" id="startBtn">Comenzar Sorpresa ✨</button>
+        </div>
+    </div>
+
+    <header>
+        <h1>¡Feliz Cumpleaños Amiga Liz! 🎂🌻</h1>
+    </header>
+
+    <audio id="bgMusic" loop>
+        <source src="HAPPY BIRTHDAY.mp3" type="audio/mpeg">
+        Tu navegador no soporta audio.
+    </audio>
+
+    <div class="slider-container" id="sliderContainer">
+        <div class="loading-msg" id="loadingMsg">Cargando recuerdos... 📸</div>
+        <div class="timer-bar" id="timerBar"></div>
+
+        <div class="dedication-panel">
+            <button class="dedication-btn" id="voiceDedicationBtn" title="Escuchar dedicatoria con voz">🎙️ <span id="voiceBtnText">Decir Mensaje</span></button>
+            <button class="dedication-btn" id="toggleNotesBtn" title="Activar/Desactivar notas musicales">🎶 <span id="notesStatusText">Notas: ON</span></button>
+        </div>
+
+        <div class="slider-controls">
+            <button class="ctrl-btn" id="prevBtn" title="Anterior">❮</button>
+            <button class="ctrl-btn" id="pauseBtn" title="Pausar/Reproducir">⏸</button>
+            <button class="ctrl-btn" id="nextBtn" title="Siguiente">❯</button>
+        </div>
+
+        <div class="final-card" id="finalCard">
+            <h3>¡Que cumplas muchos más! 🌟</h3>
+            <p>Gracias por ser una persona tan brillante, por cada risa compartida y por hacer que la vida tenga momentos tan bonitos. ¡Que este nuevo año te traiga éxitos rotundos y muchísima felicidad! 🌻💛</p>
+            <button class="replay-btn" id="replayBtn">Volver a ver ↺</button>
+        </div>
+    </div>
+
+    <script>
+        const sliderContainer = document.getElementById('sliderContainer');
+        const timerBar = document.getElementById('timerBar');
+        const loadingMsg = document.getElementById('loadingMsg');
+        const bgMusic = document.getElementById('bgMusic');
+        const welcomeOverlay = document.getElementById('welcomeOverlay');
+        const startBtn = document.getElementById('startBtn');
+        const finalCard = document.getElementById('finalCard');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        const pauseBtn = document.getElementById('pauseBtn');
+        const replayBtn = document.getElementById('replayBtn');
+        const voiceDedicationBtn = document.getElementById('voiceDedicationBtn');
+        const voiceBtnText = document.getElementById('voiceBtnText');
+        const toggleNotesBtn = document.getElementById('toggleNotesBtn');
+        const notesStatusText = document.getElementById('notesStatusText');
+        
+        let slides = [];
+        let currentIndex = 0;
+        const slideTime = 4500; 
+        let sliderInterval = null;
+        let isPaused = false;
+        let notesActive = true;
+        let notesInterval = null;
+
+        const frasesAmistad = [
+            "Hay personas que iluminan cada espacio al que llegan, igual que un girasol. ¡Feliz día! 🌻",
+            "La verdadera amistad es aquella que busca siempre la luz y contagia alegría sin pedir nada a cambio. ✨",
+            "Gracias por compartir risas, locuras y momentos que se quedan grabados para siempre. 🥂",
+            "Un brindis por los recuerdos compartidos y por todos los que faltan por venir. 💫",
+            "Tener a alguien con quien compartir la vida hace que el camino sea mucho más cálido. 🌻",
+            "Que este nuevo año de vida te traiga tanta felicidad como la que regalas a quienes te rodean. 🎂",
+            "Las mejores memorias siempre llevan impresas risas sinceras y una gran compañía. 💛",
+            "Que cada meta que te propongas florezca y la vida te sonría siempre en grande. 🎈"
+        ];
+
+        // --- EFECTO DE SONIDO MÁGICO CON WEB AUDIO API ---
+        function playMagicSound() {
+            try {
+                const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                const osc = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
+                
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(587.33, audioCtx.currentTime);
+                osc.frequency.exponentialRampToValueAtTime(1174.66, audioCtx.currentTime + 0.3);
+                
+                gain.gain.setValueAtTime(0.15, audioCtx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.4);
+                
+                osc.connect(gain);
+                gain.connect(audioCtx.destination);
+                
+                osc.start();
+                osc.stop(audioCtx.currentTime + 0.4);
+            } catch (e) {}
+        }
+
+        // --- MODO DEDICATORIA CON VOZ ---
+        function speakDedication() {
+            if (!('speechSynthesis' in window)) return;
+            window.speechSynthesis.cancel();
+            
+            const mensajeVoz = "¡Feliz cumpleaños, Liz! Que este día esté lleno de luz, alegría y mucha felicidad. Gracias por tu hermosa amistad.Gracias por todos los momentos divertidos  ¡Que cumplas muchísimos más!";
+            const utterance = new SpeechSynthesisUtterance(mensajeVoz);
+            utterance.lang = 'es-ES';
+            utterance.rate = 0.95;
+            utterance.pitch = 1.2;
+
+            voiceBtnText.innerText = "Reproduciendo...";
+            voiceDedicationBtn.style.color = "#ff9900";
+
+            utterance.onend = () => {
+                voiceBtnText.innerText = "Decir Mensaje";
+                voiceDedicationBtn.style.color = "#ffd700";
+            };
+
+            utterance.onerror = () => {
+                voiceBtnText.innerText = "Decir Mensaje";
+                voiceDedicationBtn.style.color = "#ffd700";
+            };
+
+            window.speechSynthesis.speak(utterance);
+        }
+
+        voiceDedicationBtn.addEventListener('click', (e) => {
+            playMagicSound();
+            speakDedication();
+            lanzarFuegosArtificiales(e);
+        });
+
+        // --- SCRIPT DEL FONDO MÁGICO Y ESTRELLAS ---
+        const canvas = document.getElementById('starCanvas');
+        const ctx = canvas.getContext('2d');
+        let width, height;
+        let stars = [];
+        let interactiveParticles = [];
+        let shootingStars = [];
+
+        function resizeCanvas() {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        for (let i = 0; i < 150; i++) {
+            stars.push({
+                x: Math.random() * width,
+                y: Math.random() * height,
+                radius: Math.random() * 1.8 + 0.5,
+                alpha: Math.random(),
+                speed: Math.random() * 0.02 + 0.005,
+                color: Math.random() > 0.3 ? '#fff' : '#ffd700'
+            });
+        }
+
+        function maybeCreateShootingStar() {
+            if (Math.random() < 0.03 && shootingStars.length < 2) {
+                shootingStars.push({
+                    x: Math.random() * width,
+                    y: 0,
+                    length: Math.random() * 80 + 50,
+                    speed: Math.random() * 10 + 6,
+                    opacity: 1
+                });
+            }
+        }
+
+        window.addEventListener('mousemove', (e) => {
+            for (let i = 0; i < 2; i++) {
+                interactiveParticles.push({
+                    x: e.clientX,
+                    y: e.clientY,
+                    size: Math.random() * 3 + 1,
+                    vx: (Math.random() - 0.5) * 2,
+                    vy: (Math.random() - 0.5) * 2,
+                    alpha: 1,
+                    color: Math.random() > 0.5 ? '#ffd700' : '#ffffff'
+                });
+            }
+        });
+
+        function animateMagicBackground() {
+            ctx.clearRect(0, 0, width, height);
+
+            stars.forEach(star => {
+                star.alpha += star.speed;
+                if (star.alpha > 1 || star.alpha < 0.2) star.speed = -star.speed;
+                ctx.beginPath();
+                ctx.arc(star.x, star.y, star.radius, 0, Math.PI * 2);
+                ctx.fillStyle = star.color;
+                ctx.globalAlpha = Math.abs(star.alpha);
+                ctx.fill();
+            });
+
+            maybeCreateShootingStar();
+            ctx.lineWidth = 2;
+            shootingStars.forEach((star, index) => {
+                ctx.beginPath();
+                ctx.strokeStyle = `rgba(255, 215, 0, ${star.opacity})`;
+                ctx.moveTo(star.x, star.y);
+                ctx.lineTo(star.x - star.length, star.y + star.length);
+                ctx.stroke();
+
+                star.x += star.speed;
+                star.y += star.speed;
+                star.opacity -= 0.02;
+
+                if (star.opacity <= 0) {
+                    shootingStars.splice(index, 1);
+                }
+            });
+
+            interactiveParticles.forEach((p, index) => {
+                p.x += p.vx;
+                p.y += p.vy;
+                p.alpha -= 0.03;
+
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+                ctx.fillStyle = p.color;
+                ctx.globalAlpha = Math.max(p.alpha, 0);
+                ctx.fill();
+
+                if (p.alpha <= 0) {
+                    interactiveParticles.splice(index, 1);
+                }
+            });
+
+            ctx.globalAlpha = 1;
+            requestAnimationFrame(animateMagicBackground);
+        }
+        animateMagicBackground();
+
+        async function descubrirImagenesDirectas() {
+            let imagenesEncontradas = [];
+            try {
+                let response = await fetch('./');
+                if (response.ok) {
+                    let htmlText = await response.text();
+                    let parser = new DOMParser();
+                    let doc = parser.parseFromString(htmlText, 'text/html');
+                    let links = doc.querySelectorAll('a');
+
+                    links.forEach(link => {
+                        let href = link.getAttribute('href');
+                        if (href) {
+                            let archivo = decodeURIComponent(href.split('?')[0].split('#')[0]);
+                            let lower = archivo.toLowerCase();
+                            if ((lower.endsWith('.jpg') || lower.endsWith('.jpeg') || lower.endsWith('.png') || lower.endsWith('.webp')) && archivo !== 'cumpleLIZ.html') {
+                                if (!imagenesEncontradas.includes(archivo)) {
+                                    imagenesEncontradas.push(archivo);
+                                }
+                            }
+                        }
+                    });
+                }
+            } catch (e) {
+                console.warn("Usando imágenes de respaldo.");
+            }
+
+            if (imagenesEncontradas.length === 0) {
+                imagenesEncontradas = [
+                    "2024062207372201.jpg",
+                    "2024081315334245.jpg",
+                    "2024081315354731.jpg"
+                ];
+            }
+
+            iniciarSlider(imagenesEncontradas);
+        }
+
+        function iniciarSlider(images) {
+            loadingMsg.style.display = 'none';
+
+            images.forEach((imgSrc, index) => {
+                const slide = document.createElement('div');
+                slide.className = `slide ${index === 0 ? 'active' : ''}`;
+
+                const bgDiv = document.createElement('div');
+                bgDiv.className = 'slide-bg';
+                bgDiv.style.backgroundImage = `url('${imgSrc}')`;
+
+                const img = document.createElement('img');
+                img.src = imgSrc;
+                img.className = 'slide-img';
+
+                const phraseDiv = document.createElement('div');
+                phraseDiv.className = 'slide-phrase';
+                phraseDiv.innerText = frasesAmistad[index % frasesAmistad.length];
+
+                slide.appendChild(bgDiv);
+                slide.appendChild(img);
+                slide.appendChild(phraseDiv);
+                sliderContainer.insertBefore(slide, finalCard);
+            });
+
+            slides = document.querySelectorAll('.slide');
+        }
+
+        function startTimerBar() {
+            if (isPaused) return;
+            timerBar.style.transition = 'none';
+            timerBar.style.width = '0%';
+            setTimeout(() => {
+                if (!isPaused) {
+                    timerBar.style.transition = `width ${slideTime}ms linear`;
+                    timerBar.style.width = '100%';
+                }
+            }, 50);
+        }
+
+        function nextSlide() {
+            if (slides.length === 0 || isPaused) return;
+            
+            slides[currentIndex].classList.remove('active');
+            currentIndex++;
+
+            if (currentIndex >= slides.length) {
+                clearInterval(sliderInterval);
+                timerBar.style.width = '0%';
+                finalCard.classList.add('active');
+            } else {
+                slides[currentIndex].classList.add('active');
+                startTimerBar();
+            }
+        }
+
+        prevBtn.addEventListener('click', () => {
+            if (slides.length === 0) return;
+            playMagicSound();
+            finalCard.classList.remove('active');
+            slides[currentIndex].classList.remove('active');
+            currentIndex = (currentIndex - 1 + slides.length) % slides.length;
+            slides[currentIndex].classList.add('active');
+            startTimerBar();
+        });
+
+        nextBtn.addEventListener('click', () => {
+            if (slides.length === 0) return;
+            playMagicSound();
+            finalCard.classList.remove('active');
+            slides[currentIndex].classList.remove('active');
+            currentIndex = (currentIndex + 1) % slides.length;
+            slides[currentIndex].classList.add('active');
+            startTimerBar();
+        });
+
+        pauseBtn.addEventListener('click', () => {
+            playMagicSound();
+            isPaused = !isPaused;
+            pauseBtn.innerText = isPaused ? "▶" : "⏸";
+            if (isPaused) {
+                clearInterval(sliderInterval);
+                timerBar.style.transition = 'none';
+            } else {
+                sliderInterval = setInterval(nextSlide, slideTime);
+                startTimerBar();
+            }
+        });
+
+        replayBtn.addEventListener('click', (e) => {
+            playMagicSound();
+            finalCard.classList.remove('active');
+            slides[currentIndex].classList.remove('active');
+            currentIndex = 0;
+            slides[currentIndex].classList.add('active');
+            if (sliderInterval) clearInterval(sliderInterval);
+            sliderInterval = setInterval(nextSlide, slideTime);
+            startTimerBar();
+            lanzarFuegosArtificiales(e);
+        });
+
+        // --- BOTÓN DE INICIO PRINCIPAL (REPRODUCE VOZ Y MÚSICA) ---
+        startBtn.addEventListener('click', (e) => {
+            playMagicSound();
+            welcomeOverlay.style.opacity = '0';
+            setTimeout(() => {
+                welcomeOverlay.style.display = 'none';
+            }, 800);
+
+            // Intentar reproducir música
+            bgMusic.play().catch(() => {});
+
+            // Reproducir la voz al hacer clic en el botón inicial
+            speakDedication();
+
+            // Iniciar intervalo del slider
+            if (slides.length > 0) {
+                sliderInterval = setInterval(nextSlide, slideTime);
+                startTimerBar();
+            }
+
+            lanzarFuegosArtificiales(e);
+        });
+
+        descubrirImagenesDirectas();
+
+        function createConfetti() {
+            const confettiCount = 35;
+            const colors = ['#ffd700', '#ff9900', '#ff4757', '#ffffff', '#2ed573'];
+
+            for (let i = 0; i < confettiCount; i++) {
+                const conf = document.createElement('div');
+                conf.className = 'confetti';
+                conf.style.left = Math.random() * 100 + 'vw';
+                conf.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                conf.style.width = Math.random() * 8 + 4 + 'px';
+                conf.style.height = conf.style.width;
+                conf.style.animationDuration = Math.random() * 3 + 2 + 's';
+                conf.style.animationDelay = Math.random() * 5 + 's';
+                document.body.appendChild(conf);
+            }
+        }
+        createConfetti();
+
+        function lanzarFuegosArtificiales(e) {
+            const rect = e.target.getBoundingClientRect();
+            const x = rect.left + rect.width / 2;
+            const y = rect.top + rect.height / 2;
+            const colors = ['#ffd700', '#ff9900', '#ff4757', '#ffffff', '#2ed573'];
+
+            for (let i = 0; i < 30; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'firework-particle';
+                particle.style.left = x + 'px';
+                particle.style.top = y + 'px';
+                particle.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+
+                const angle = Math.random() * Math.PI * 2;
+                const distance = Math.random() * 120 + 40;
+                const tx = Math.cos(angle) * distance;
+                const ty = Math.sin(angle) * distance;
+
+                particle.style.setProperty('--tx', `${tx}px`);
+                particle.style.setProperty('--ty', `${ty}px`);
+
+                document.body.appendChild(particle);
+                setTimeout(() => particle.remove(), 1000);
+            }
+        }
+
+        // --- NOTAS MUSICALES FLOTANTES CONTROLABLES ---
+        function startFloatingNotes() {
+            if (notesInterval) clearInterval(notesInterval);
+            notesInterval = setInterval(() => {
+                if (!notesActive) return;
+                const note = document.createElement('div');
+                note.className = 'music-note';
+                note.innerHTML = ['🎵', '🎶', '✨', '💛', '🎼'][Math.floor(Math.random() * 5)];
+                note.style.left = Math.random() * 95 + 'vw';
+                note.style.animationDuration = (Math.random() * 3 + 3) + 's';
+                document.body.appendChild(note);
+                setTimeout(() => note.remove(), 4000);
+            }, 800);
+        }
+        startFloatingNotes();
+
+        toggleNotesBtn.addEventListener('click', () => {
+            playMagicSound();
+            notesActive = !notesActive;
+            notesStatusText.innerText = notesActive ? "Notas: ON" : "Notas: OFF";
+        });
+    </script>
+</body>
+</html>
