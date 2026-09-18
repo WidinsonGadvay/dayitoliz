@@ -452,21 +452,6 @@
             0% { transform: translate(0, 0) scale(1); opacity: 1; }
             100% { transform: translate(var(--tx), var(--ty)) scale(0.1); opacity: 0; }
         }
-
-        .music-note {
-            position: fixed;
-            font-size: 1.2rem;
-            color: #ffd700;
-            pointer-events: none;
-            z-index: 3;
-            animation: floatNote 4s linear infinite;
-            opacity: 0;
-        }
-
-        @keyframes floatNote {
-            0% { transform: translateY(105vh) scale(0.8); opacity: 1; }
-            100% { transform: translateY(-10vh) translateX(30px) scale(1.2); opacity: 0; }
-        }
     </style>
 </head>
 <body>
@@ -504,7 +489,6 @@
 
         <div class="dedication-panel">
             <button class="dedication-btn" id="voiceDedicationBtn" title="Escuchar dedicatoria con voz">🎙️ <span id="voiceBtnText">Decir Mensaje</span></button>
-            <button class="dedication-btn" id="toggleNotesBtn" title="Activar/Desactivar notas musicales">🎶 <span id="notesStatusText">Notas: ON</span></button>
         </div>
 
         <div class="slider-controls">
@@ -534,16 +518,12 @@
         const replayBtn = document.getElementById('replayBtn');
         const voiceDedicationBtn = document.getElementById('voiceDedicationBtn');
         const voiceBtnText = document.getElementById('voiceBtnText');
-        const toggleNotesBtn = document.getElementById('toggleNotesBtn');
-        const notesStatusText = document.getElementById('notesStatusText');
         
         let slides = [];
         let currentIndex = 0;
         const slideTime = 4500; 
         let sliderInterval = null;
         let isPaused = false;
-        let notesActive = true;
-        let notesInterval = null;
 
         const frasesAmistad = [
             "Hay personas que iluminan cada espacio al que llegan, igual que un girasol. ¡Feliz día! 🌻",
@@ -583,7 +563,7 @@
             if (!('speechSynthesis' in window)) return;
             window.speechSynthesis.cancel();
             
-            const mensajeVoz = "¡Feliz cumpleaños, Liz! Que este día esté lleno de luz, alegría y mucha felicidad. Gracias por tu hermosa amistad.Gracias por todos los momentos divertidos  ¡Que cumplas muchísimos más!";
+            const mensajeVoz = "¡Feliz cumpleaños, Liz! Que este día esté lleno de luz, alegría y mucha felicidad. Gracias por tu hermosa amistad. Gracias por todos los momentos divertidos. ¡Que cumplas muchísimos más!";
             const utterance = new SpeechSynthesisUtterance(mensajeVoz);
             utterance.lang = 'es-ES';
             utterance.rate = 0.95;
@@ -611,7 +591,7 @@
             lanzarFuegosArtificiales(e);
         });
 
-        // --- SCRIPT DEL FONDO MÁGICO Y ESTRELLAS ---
+        // --- FONDO MÁGICO Y ESTRELLAS ---
         const canvas = document.getElementById('starCanvas');
         const ctx = canvas.getContext('2d');
         let width, height;
@@ -715,6 +695,7 @@
         }
         animateMagicBackground();
 
+        // --- COMPATIBILIDAD CON GITHUB PAGES (ESCANEO Y RESPALDO) ---
         async function descubrirImagenesDirectas() {
             let imagenesEncontradas = [];
             try {
@@ -730,7 +711,7 @@
                         if (href) {
                             let archivo = decodeURIComponent(href.split('?')[0].split('#')[0]);
                             let lower = archivo.toLowerCase();
-                            if ((lower.endsWith('.jpg') || lower.endsWith('.jpeg') || lower.endsWith('.png') || lower.endsWith('.webp')) && archivo !== 'cumpleLIZ.html') {
+                            if ((lower.endsWith('.jpg') || lower.endsWith('.jpeg') || lower.endsWith('.png') || lower.endsWith('.webp')) && archivo !== 'index.html') {
                                 if (!imagenesEncontradas.includes(archivo)) {
                                     imagenesEncontradas.push(archivo);
                                 }
@@ -739,9 +720,10 @@
                     });
                 }
             } catch (e) {
-                console.warn("Usando imágenes de respaldo.");
+                console.warn("Entorno estático detectado, usando imágenes de respaldo configuradas.");
             }
 
+            // Si GitHub Pages bloquea el escaneo del directorio raíz, usa esta lista o tus archivos locales
             if (imagenesEncontradas.length === 0) {
                 imagenesEncontradas = [
                     "2024062207372201.jpg",
@@ -854,7 +836,6 @@
             lanzarFuegosArtificiales(e);
         });
 
-        // --- BOTÓN DE INICIO PRINCIPAL (REPRODUCE VOZ Y MÚSICA) ---
         startBtn.addEventListener('click', (e) => {
             playMagicSound();
             welcomeOverlay.style.opacity = '0';
@@ -862,13 +843,9 @@
                 welcomeOverlay.style.display = 'none';
             }, 800);
 
-            // Intentar reproducir música
             bgMusic.play().catch(() => {});
-
-            // Reproducir la voz al hacer clic en el botón inicial
             speakDedication();
 
-            // Iniciar intervalo del slider
             if (slides.length > 0) {
                 sliderInterval = setInterval(nextSlide, slideTime);
                 startTimerBar();
@@ -922,28 +899,6 @@
                 setTimeout(() => particle.remove(), 1000);
             }
         }
-
-        // --- NOTAS MUSICALES FLOTANTES CONTROLABLES ---
-        function startFloatingNotes() {
-            if (notesInterval) clearInterval(notesInterval);
-            notesInterval = setInterval(() => {
-                if (!notesActive) return;
-                const note = document.createElement('div');
-                note.className = 'music-note';
-                note.innerHTML = ['🎵', '🎶', '✨', '💛', '🎼'][Math.floor(Math.random() * 5)];
-                note.style.left = Math.random() * 95 + 'vw';
-                note.style.animationDuration = (Math.random() * 3 + 3) + 's';
-                document.body.appendChild(note);
-                setTimeout(() => note.remove(), 4000);
-            }, 800);
-        }
-        startFloatingNotes();
-
-        toggleNotesBtn.addEventListener('click', () => {
-            playMagicSound();
-            notesActive = !notesActive;
-            notesStatusText.innerText = notesActive ? "Notas: ON" : "Notas: OFF";
-        });
     </script>
 </body>
 </html>
